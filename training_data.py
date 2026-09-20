@@ -36,19 +36,18 @@ training_data = [ #each element in list is dictionary that has two individual ke
      "labels" : ["reading", "coding", "reasoning"]},
     ]
 
-
+from collections import Counter
 random_data = "write code read code write essay"
 
-sorted_data = sorted(set(random_data.split()))
 
-def vector_output(input: str):
+def vector_output(data : str, input: str):
+    sorted_data = sorted(set(data.split()))
     vector = []
-    for word in sorted_data:
-        if word in input.split():
-            vector.append(1)
-        else:
-            vector.append(0)
-    return vector
+    count_of_words = Counter(input.split())
     
-
+    for word in sorted_data:
+        vector.append(count_of_words[word])
+    print(vector)
+    
+vector_output(random_data, "write code for this essay")
 
