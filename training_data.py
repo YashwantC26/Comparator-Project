@@ -1,3 +1,7 @@
+from collections import Counter
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+
 training_data = [ #each element in list is dictionary that has two individual keys, prompt & label
     {"prompt" : "Implement a BST and red-black tree and illustrate their performance benefits and use cases.",
      "labels" : ["coding", "reasoning"]},
@@ -36,18 +40,31 @@ training_data = [ #each element in list is dictionary that has two individual ke
      "labels" : ["reading", "coding", "reasoning"]},
     ]
 
-from collections import Counter
+
 random_data = "write code read code write essay"
+sorted_data = sorted(set(random_data.split()))
+some_data = ["write code", "read code", "write essay"]
 
-
-def vector_output(data : str, input: str):
-    sorted_data = sorted(set(data.split()))
+def vector_output(data, input: str):
     vector = []
     count_of_words = Counter(input.split())
     
-    for word in sorted_data:
+    for word in data:
         vector.append(count_of_words[word])
-    print(vector)
+    return(vector)
     
-vector_output(random_data, "write code for this essay")
+vector_output(sorted_data, "write code for this essay")
 
+vectorizer = CountVectorizer()
+
+matrix = vectorizer.fit_transform(some_data)
+
+x = vectorizer.get_feature_names_out()
+
+tfidfvector = TfidfTransformer()
+
+matrix2 = tfidfvector.fit_transform(some_data)
+
+y = tfidfvector.get_feature_names_out()
+
+print(matrix2.toarray(), y)
